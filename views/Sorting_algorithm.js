@@ -218,8 +218,6 @@ async function mergesort() {
                 await sleep(100);
                 let left_clr = myChart.data.datasets[0].backgroundColor[l];
                 let right_clr = myChart.data.datasets[0].backgroundColor[r];
-                // myChart.data.datasets[0].backgroundColor[l] = '#ffffff';
-                // myChart.data.datasets[0].backgroundColor[r] = '#ffffff';
                 myChart.data.datasets[0].backgroundColor[l] = '#ffffff';
                 myChart.data.datasets[0].backgroundColor[r] = '#ffffff';
                 await sort(arr, l, m);
@@ -227,7 +225,6 @@ async function mergesort() {
                 myChart.data.datasets[0].backgroundColor[l] = left_clr;
                 myChart.data.datasets[0].backgroundColor[r] = right_clr;
                 await sort(arr, m + 1, r);
-                // await sleep(100);
                 merge(arr, l, m, r);
             }
             await sleep(100);
@@ -238,4 +235,49 @@ async function mergesort() {
         }
         sort(arr, 0, arr.length - 1);
     })();
+}
+
+async function insertionsort() {
+    check_custom_array();
+    for (let i = 0; i < arr.length; ++i) {
+        let key = arr[i];
+        let j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        var left_key = myChart.data.datasets[0].backgroundColor[i];
+        myChart.data.datasets[0].backgroundColor[i] = '#ffffff';
+        myChart.update();
+        await sleep(600);
+        myChart.data.datasets[0].backgroundColor[i] = left_key;
+        arr[j + 1] = key;
+        myChart.data.datasets[0].data = arr;
+        myChart.data.labels = arr;
+        myChart.update();
+    }
+}
+
+async function selectionsort() {
+    check_custom_array();
+    for (var i = 0; i < arr.length - 1; i++) {
+        var min_idx = i;
+        for (var j = i + 1; j < arr.length; j++) {
+            if (arr[j] < arr[min_idx]) {
+                min_idx = j;
+            }
+        }
+        var i_idx_clr = myChart.data.datasets[0].backgroundColor[i];
+        myChart.data.datasets[0].backgroundColor[i] = '#ffffff';
+        myChart.update();
+        await sleep(400);
+        let temp = arr[min_idx];
+        arr[min_idx] = arr[i];
+        arr[i] = temp;
+        myChart.data.datasets[0].backgroundColor[i] = i_idx_clr;
+        myChart.update();
+        myChart.data.datasets[0].data = arr;
+        myChart.data.labels = arr;
+        myChart.update();
+    }
 }
